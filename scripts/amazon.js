@@ -1,3 +1,5 @@
+import {cart} from '../data/cart.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const productsGrid = document.querySelector('.products-grid');
 
