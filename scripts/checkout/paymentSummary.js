@@ -1,11 +1,19 @@
 import {cart} from '../../data/cart.js';
-import {getProduct} from '../../data/products.js';
+import {getProduct, loadProducts} from '../../data/products.js';
 import { getDeliveryOption } from '../../data/deliveryOptions.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
+
+loadProducts(renderPaymentSummary);
 
 export function renderPaymentSummary() {
     let productPriceCents = 0;
     let shippingPriceCents = 0;
+
+    beforeAll((done) => {
+      loadProducts(() => {
+        done();
+      });
+    })
 
     cart.forEach((cartItem) => {
         const product = getProduct(cartItem.productId);

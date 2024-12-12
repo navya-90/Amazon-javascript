@@ -1,10 +1,11 @@
 import { cart, removeFromcart, updateDeliveryOption } from '../../data/cart.js';
-import { products, getProduct } from '../../data/products.js';
+import { products, getProduct, loadProducts } from '../../data/products.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
 
+loadProducts(renderOrderSummary);
 
 export function renderOrderSummary() {
     let cartSummaryHTML = '';
