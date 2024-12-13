@@ -5,7 +5,10 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
 
-loadProducts(renderOrderSummary);
+loadProducts(() => {      
+  renderOrderSummary();
+});
+
 
 export function renderOrderSummary() {
     let cartSummaryHTML = '';
@@ -14,9 +17,19 @@ export function renderOrderSummary() {
 
       let matchingProduct = getProduct(productId);
 
+      if (!matchingProduct) {
+        console.warn(`Product with ID ${productId} not found!`);
+        return; // Skip this iteration
+      }
+
       const deliveryOptionsId = cartItem.deliveryOptionsId;
 
       let deliveryOption = getDeliveryOption(deliveryOptionsId);
+
+      if (!deliveryOption) {
+        console.warn(`Delivery option with ID ${deliveryOptionsId} not found!`);
+        return; // Skip this iteration
+      }
 
       const today = dayjs();
       const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
@@ -66,6 +79,12 @@ export function renderOrderSummary() {
     });
 
     function deliveryOptionsHTML(matchingProduct,cartItem) {
+
+      if (!matchingProduct) {
+        console.warn("Invalid product passed to deliveryOptionsHTML.");
+        return ""; // Return empty string if no product is found
+      }
+
       let html = '';
 
       deliveryOptions.forEach((deliveryOption) => {
